@@ -21,7 +21,26 @@ def cifrador(senha: str, mensagem: str) -> str:
     Returns:
         str: criptograma
     """
-    pass
+    ### Garantir o mesmo comprimento entre senha e mensagem
+    if len(senha) < len(mensagem):
+        senha = senha * (len(mensagem) // len(senha) + 1)
+        senha = senha[0 : len(mensagem)]
+    """
+    Para todo par de letras s,m da senha e mensagem, respectivamente:
+    1. s [a-zA-Z] ->|lower| s[a-z] ->|\-ord("a")| s[0-26]
+    2. repete procedimento para m
+    3. resolve (s+m)%26 para descobrir a letra do criptograma
+    4. soma ord("a") para ter o equivalente ascii
+    """
+    criptograma = [
+        chr(((ord(s.lower()) + ord(m.lower()) - 2 * ord("a")) % 26) + ord("a"))
+        for s, m in zip(senha, mensagem)
+    ]
+    ### Mantém as letras maiúsculas e minusculas no criptograma conforme a mensagem
+    criptograma = [
+        c if m.islower() else c.upper() for c, m in zip(criptograma, mensagem)
+    ]
+    return "".join(criptograma)
 
 
 if __name__ == "__main__":
