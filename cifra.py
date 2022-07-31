@@ -1,15 +1,5 @@
 #!/usr/bin/env python3
 """Cifra de Vigenère
->>> cifrador("lem", "att")
-'lxf'
->>> cifrador("lem", "ATT")
-'LXF'
->>> cifrador("lem", "ATT ATT") == cifrador("lem", "ATTATT")
-True
->>> cifrador("LIMAO", "ATACARBASESUL")
-'LBMCOCJMSSDCX'
->>> cifrador("LIMAOLIMAOLIM", "ATACARBASESUL")
-'LBMCOCJMSSDCX'
 >>> decifrador("lem", cifrador("lem", "att"))
 'att'
 >>> decifrador("LIMAO", cifrador("LIMAO", "ATACARBASESUL"))
@@ -26,6 +16,22 @@ def cifrador(senha: str, mensagem: str) -> str:
 
     Returns:
         str: criptograma
+
+    Examples:
+        >>> # manter maiúsculas e minúsculas
+        ... cifrador("lem", "att")
+        'lxf'
+        >>> # remover espaços
+        ... cifrador("lem", "ATT")
+        'LXF'
+        >>> cifrador("lem", "ATT ATT") == cifrador("lem", "ATTATT")
+        True
+        >>> # repetição da senha para formar keystream
+        ... cifrador("LIMAO", "ATACARBASESUL")
+        'LBMCOCJMSSDCX'
+        >>> cifrador("LIMAO", "ATACARBASESUL") == \
+            cifrador("LIMAOLIMAOLIM", "ATACARBASESUL")
+        True
     """
     ### Remover espaços entre letras
     mensagem = "".join(mensagem.split())
