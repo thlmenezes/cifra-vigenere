@@ -4,6 +4,8 @@
 'lxf'
 >>> cifrador("lem", "ATT")
 'LXF'
+>>> cifrador("lem", "ATT ATT") == cifrador("lem", "ATTATT")
+True
 >>> cifrador("LIMAO", "ATACARBASESUL")
 'LBMCOCJMSSDCX'
 >>> cifrador("LIMAOLIMAOLIM", "ATACARBASESUL")
@@ -20,11 +22,13 @@ def cifrador(senha: str, mensagem: str) -> str:
 
     Args:
         senha (str): senha de cifração, caso seja mais curta que a mensagem, os caracteres serão repetidos mantendo a ordem até que se alcançe o tamanho adequado
-        mensagem (str): mensagem a ser cifrada
+        mensagem (str): mensagem a ser cifrada, todos os espaços serão removidos
 
     Returns:
         str: criptograma
     """
+    ### Remover espaços entre letras
+    mensagem = "".join(mensagem.split())
     ### Garantir o mesmo comprimento entre senha e mensagem
     if len(senha) < len(mensagem):
         senha = senha * (len(mensagem) // len(senha) + 1)
