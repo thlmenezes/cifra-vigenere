@@ -93,13 +93,26 @@ if __name__ == "__main__":
     if __devo_mostra_ajuda__(sys.argv):
         print(
             """
-          Cifra de Vigenère
-          use PASSWORD from env to cipher a message passed to script
-          >>> ./cifra [message]
-          """
+Cifra de Vigenère
+    use PASSWORD from env to cipher a message passed to script
+    >>> ./cifra message [-h|--help] [-d]
+    
+EXAMPLE:
+    >>> PASSWORD=lem ./cifra.py ATT
+    LXF
+    >>> PASSWORD=lem ./cifra.py LXF -d
+    ATT
+
+OPTIONS:
+    -h, --help
+        Output this message, default when no args were passed
+    -d
+        Decipher message
+            """
         )
         exit(0)
 
     import os
 
-    print(cifrador(os.getenv("PASSWORD"), sys.argv[1]))
+    funct = decifrador if sys.argv.count("-d") else cifrador
+    print(funct(os.getenv("PASSWORD"), sys.argv[1]))
