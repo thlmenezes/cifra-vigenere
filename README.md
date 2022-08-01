@@ -39,3 +39,7 @@ Para instruções na execução do arquivo basta executar uma das opções:
 >>> ./ataque.py -h
 >>> ./ataque.py --help
 ```
+
+## Relatório
+
+[LEIA AQUI](./relatorio.pdf)
