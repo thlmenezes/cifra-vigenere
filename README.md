@@ -29,3 +29,13 @@ Para executar os testes, basta executar uma das opções:
 Serão fornecidas duas mensagens cifradas (uma em português e outra em inglês) com senhas diferentes. Cada uma das mensagens deve ser utilizada para recuperar a senha geradora do keystream (senha extendida ao tamanho da mensagem) usado na cifração e então decifradas.
 
 Para as frequências das letras foi usado: https://pt.wikipedia.org/wiki/Frequ%C3%AAncia_de_letras
+
+Implementado no arquivo ataque.py
+
+Para instruções na execução do arquivo basta executar uma das opções:
+
+```
+>>> ./ataque.py
+>>> ./ataque.py -h
+>>> ./ataque.py --help
+```
