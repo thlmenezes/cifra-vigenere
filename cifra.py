@@ -8,6 +8,7 @@
     decifrador("LIMAO", "lbf") == cifrador("PSOAM", "lbf")
 True
 """
+import itertools
 
 
 def cifrador(senha: str, mensagem: str) -> str:
@@ -39,9 +40,7 @@ def cifrador(senha: str, mensagem: str) -> str:
     ### Remover espaços entre letras
     mensagem = "".join(mensagem.split())
     ### Garantir o mesmo comprimento entre senha e mensagem
-    if len(senha) < len(mensagem):
-        senha = senha * (len(mensagem) // len(senha) + 1)
-        senha = senha[0 : len(mensagem)]
+    keystream = itertools.cycle(map(ord, senha.lower()))
     """
     Para todo par de letras s,m da senha e mensagem, respectivamente:
     1. s [a-zA-Z] ->|lower| s[a-z] ->|\-ord("a")| s[0-26]
@@ -50,8 +49,8 @@ def cifrador(senha: str, mensagem: str) -> str:
     4. soma ord("a") para ter o equivalente ascii
     """
     criptograma = [
-        chr(((ord(s.lower()) + ord(m.lower()) - 2 * ord("a")) % 26) + ord("a"))
-        for s, m in zip(senha, mensagem)
+        chr(((next(keystream) + ord(m.lower()) - 2 * ord("a")) % 26) + ord("a"))
+        for m in mensagem
     ]
     ### Mantém as letras maiúsculas e minusculas no criptograma conforme a mensagem
     criptograma = [
