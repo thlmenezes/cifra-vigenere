@@ -71,38 +71,6 @@ en_US_freq = {
 }
 
 
-def extrair_subtexto_repetido(texto: str) -> str:
-    """Busca o menor subtexto que quando repetido constrói
-    o texto original, sem quaisquer caracteres sobrando.
-
-    Fonte: https://codereview.stackexchange.com/questions/161361/use-python-to-determine-the-repeating-pattern-in-a-string#answer-161408
-
-    Args:
-        texto (str): texto contendo repetições
-
-    Returns:
-        str: subtexto que se repete
-
-    Examples:
-        >>> extrair_subtexto_repetido("abcdeabcde")
-        'abcde'
-        >>> extrair_subtexto_repetido("abcdeabcdef")
-        ''
-        >>> extrair_subtexto_repetido("aaaaa")
-        'a'
-    """
-    comprimento = len(texto)
-    for i in range(1, comprimento // 2 + 1):
-        repeticoes_esperadas, resto = divmod(comprimento, i)
-        # Valida que não haja resto
-        if resto > 0:
-            continue
-        # Subtexto, quando repetido, deve ser igual ao original
-        if texto == texto[:i] * repeticoes_esperadas:
-            return texto[:i]
-    return ""
-
-
 def compara_frequencia(criptograma: str, lingua: dict) -> float:
     """Gera um delta do quão próximo está o texto cifrado da língua.
 
