@@ -4,6 +4,9 @@
 'att'
 >>> decifrador("LIMAO", cifrador("LIMAO", "ATACARBASESUL"))
 'ATACARBASESUL'
+>>> # inverter a chave também decifra
+    decifrador("LIMAO", "lbf") == cifrador("PSOAM", "lbf")
+True
 """
 
 
@@ -67,24 +70,11 @@ def decifrador(senha: str, criptograma: str) -> str:
     Returns:
         str: mensagem
     """
-    ### Garantir o mesmo comprimento entre senha e mensagem
-    if len(senha) < len(criptograma):
-        senha = senha * (len(criptograma) // len(senha) + 1)
-        senha = senha[0 : len(criptograma)]
-    """
-    Para todo par de letras s,c da senha e criptograma, respectivamente:
-    1. s [a-zA-Z] ->|lower| s[a-z] ->|\-ord("a")| s[0-26]
-    2. repete procedimento para m
-    3. resolve (s+m)%26 para descobrir a letra do criptograma
-    4. soma ord("a") para ter o equivalente ascii
-    """
-    mensagem = [
-        chr(((ord(c.lower()) - ord("a")) - (ord(s.lower()) - ord("a"))) % 26 + ord("a"))
-        for c, s in zip(criptograma, senha)
-    ]
-    ### Mantém as letras maiúsculas e minusculas na mensagem conforme o criptograma
-    mensagem = [m if c.islower() else m.upper() for m, c in zip(mensagem, criptograma)]
-    return "".join(mensagem)
+    senha = senha.lower()
+    senha_invertida = "".join(
+        chr(ord("a") + (26 - (ord(letra) - ord("a")) % 26)) for letra in senha
+    )
+    return cifrador(senha_invertida, criptograma)
 
 
 if __name__ == "__main__":
