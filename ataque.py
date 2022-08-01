@@ -8,6 +8,8 @@
 6. apresentar chave e texto decifrado
 """
 from cifra import cifrador, decifrador
+import string
+from collections import Counter
 
 pt_BR_freq = {
     "a": 14.63,
@@ -98,6 +100,30 @@ def extrair_subtexto_repetido(texto: str) -> str:
         if texto == texto[:i] * repeticoes_esperadas:
             return texto[:i]
     return ""
+
+
+def compara_frequencia(criptograma: str, lingua: dict) -> float:
+    """Gera um delta do quão próximo está o texto cifrado da língua.
+
+    Compara a frequência das palavras no criptograma com as frequências da
+    palavras na língua, menor é melhor
+
+    Args:
+        criptograma (str): texto cifrado
+        lingua (dict): contém a frequência esperada de todas as letras minusculas
+
+    Returns:
+        float: delta da comparação de frequências
+    """
+    if not criptograma:
+        return float("inf")
+    criptograma = [c for c in criptograma.lower() if c in string.ascii_lowercase]
+    comprimento = float(len(criptograma))
+    frequencia = {
+        char: freq / comprimento for char, freq in Counter(criptograma).most_common()
+    }
+    absolute = sum(abs(frequencia[letra] - lingua[letra]) for letra in frequencia)
+    return absolute
 
 
 if __name__ == "__main__":
