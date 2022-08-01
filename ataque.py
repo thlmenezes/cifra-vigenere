@@ -1,17 +1,12 @@
 #!/usr/bin/env python3
 """Quebrando a Cifra de Vigenère
-1. contar frequência de cada letra no texto
-2. comparar com frequência das letras em cada língua (pt_BR, en_US)
-    1. https://pt.wikipedia.org/wiki/Frequ%C3%AAncia_de_letras
-4. descobrir keystream
-5. extrair key
-6. apresentar chave e texto decifrado
 """
 from cifra import cifrador, decifrador
 import string
 from collections import Counter
 import itertools
 
+# https://pt.wikipedia.org/wiki/Frequ%C3%AAncia_de_letras
 pt_BR_freq = {
     "a": 0.1463,
     "b": 0.0104,
