@@ -159,7 +159,7 @@ if __name__ == "__main__":
         print(
             """
 Cifra de Vigenère
-    use LANG from env to decipher a message passed to script
+    use LANG, MAX_KEY_LENGTH, MIN_KEY_LENGTH from env to decipher a message passed to script
     >>> ./ataque.py message [-h|--help]
     
 EXAMPLE:
@@ -176,7 +176,9 @@ OPTIONS:
 
     criptograma = " ".join(sys.argv[1:])
     lingua = pt_BR_freq if os.getenv("LANG").startswith("pt_BR") else en_US_freq
-    [senha] = freq_decifra(criptograma, lingua) or ["fail"]
+    maximo = int(os.getenv("MAX_KEY_LENGTH", 20))
+    minimo = int(os.getenv("MIN_KEY_LENGTH", 1))
+    [senha] = freq_decifra(criptograma, lingua, minimo, maximo) or ["fail"]
 
     print(f'LANG: {os.getenv("LANG").split(".")[0]}')
     print("Decrypted key: {!r}".format(senha))
