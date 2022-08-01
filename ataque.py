@@ -100,7 +100,21 @@ def freq_decifra(
     lingua: dict,
     min_tamanho_chave: int = None,
     max_tamanho_chave: int = None,
-):
+) -> [str]:
+    """Encontra chave de cifração para criptograma baseado na cifra de Vigenère
+
+    O algoritmo a seguir se baseia na análise de frequência da língua em que a
+    mensagem foi escrita.
+
+    Args:
+        criptograma (str): alvo do ataque
+        lingua (dict): tabela de frequências das letras
+        min_tamanho_chave (int, optional): tamanho mínimo da chave. Defaults to None.
+        max_tamanho_chave (int, optional): tamanho máximo da chave. Defaults to None.
+
+    Returns:
+        [str]: Lista que pode ou não conter 1 elemento, com a chave de maior pontuação
+    """
     cifrado = [c for c in criptograma.lower() if c in string.ascii_lowercase]
     max_tamanho_chave = max_tamanho_chave or 20
     min_tamanho_chave = min_tamanho_chave or 1
