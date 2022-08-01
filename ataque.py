@@ -143,45 +143,41 @@ def freq_decifra(
 
 
 if __name__ == "__main__":
-    pt_BR = cifrador(
-        "manuel",
-        """
-    A cifra de Vigenère é um método de criptografia que
-    usa uma série de diferentes cifras de César baseadas
-    em letras de uma senha. A invenção da cifra de Vigenère
-    é erradamente atribuída a Blaise de Vigenère encontra-se
-    originalmente descrita por Giovan Battista Bellaso no
-    seu livro datado de 1553 com o título La Cifra del Sig.
-    Giovan Battista Bellaso. Esta cifra é muito conhecida
-    porque é fácil de perceber e de pôr em prática,
-    parecendo, a quem tem pouca prática, que é inquebrável
-    (indecifrável). Consequentemente, muitos programadores
-    implementaram esquemas de criptografia nas suas aplicações
-    que são no essencial cifras de Vigenère, e que são
-    facilmente quebradas por qualquer criptoanalista.
-        """,
-    )
+    import sys
 
-    for k in reversed(freq_decifra(pt_BR, pt_BR_freq)):
-        print("")
-        print("Decypted key: {!r}".format(k))
-        print("Decypted Message:", decifrador(k, pt_BR))
+    def __devo_mostra_ajuda__(args: [str]) -> bool:
+        """Avalia se deve mostrar mensagem de ajuda"""
+        if args.count("-h"):
+            return True
+        if args.count("--help"):
+            return True
+        if len(args) == 1:
+            return True
+        return False
 
-    en_US = cifrador(
-        "manual",
-        """
-    The Vigenère cipher is a method of encrypting alphabetic
-    text by using a series of interwoven Caesar ciphers,
-    based on the letters of a keyword. It employs a form of
-    polyalphabetic substitution.
-    First described by Giovan Battista Bellaso in 1553,
-    the cipher is easy to understand and implement, but it
-    resisted all attempts to break it until 1863, three
-    centuries later.
-        """,
-    )
+    if __devo_mostra_ajuda__(sys.argv):
+        print(
+            """
+Cifra de Vigenère
+    use LANG from env to decipher a message passed to script
+    >>> ./ataque.py message [-h|--help]
+    
+EXAMPLE:
+    >>> LANG=pt_BR ./ataque.py `cat ciphered_text.txt`
 
-    for k in reversed(freq_decifra(en_US, en_US_freq)):
-        print("")
-        print("Decypted key: {!r}".format(k))
-        print("Decypted Message:", decifrador(k, en_US))
+OPTIONS:
+    -h, --help
+        Output this message, default when no args were passed
+            """
+        )
+        exit(0)
+
+    import os
+
+    criptograma = " ".join(sys.argv[1:])
+    lingua = pt_BR_freq if os.getenv("LANG").startswith("pt_BR") else en_US_freq
+    [senha] = freq_decifra(criptograma, lingua) or ["fail"]
+
+    print(f'LANG: {os.getenv("LANG").split(".")[0]}')
+    print("Decrypted key: {!r}".format(senha))
+    print("Decrypted Message:", decifrador(senha, criptograma))
