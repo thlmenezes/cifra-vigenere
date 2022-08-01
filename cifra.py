@@ -5,10 +5,11 @@
 >>> decifrador("LIMAO", cifrador("LIMAO", "ATACARBASESUL"))
 'ATACARBASESUL'
 >>> # inverter a chave também decifra
-    decifrador("LIMAO", "lbf") == cifrador("PSOAM", "lbf")
+... decifrador("LIMAO", "lbf") == cifrador("PSOAM", "lbf")
 True
 """
 import itertools
+import string
 
 
 def cifrador(senha: str, mensagem: str) -> str:
@@ -25,11 +26,9 @@ def cifrador(senha: str, mensagem: str) -> str:
         >>> # manter maiúsculas e minúsculas
         ... cifrador("lem", "att")
         'lxf'
-        >>> # remover espaços
-        ... cifrador("lem", "ATT")
-        'LXF'
-        >>> cifrador("lem", "ATT ATT") == cifrador("lem", "ATTATT")
-        True
+        >>> # manter espaços
+        ... cifrador("lem", "ATT ATT")
+        'LXF LXF'
         >>> # repetição da senha para formar keystream
         ... cifrador("LIMAO", "ATACARBASESUL")
         'LBMCOCJMSSDCX'
@@ -37,8 +36,6 @@ def cifrador(senha: str, mensagem: str) -> str:
             cifrador("LIMAOLIMAOLIM", "ATACARBASESUL")
         True
     """
-    ### Remover espaços entre letras
-    mensagem = "".join(mensagem.split())
     ### Garantir o mesmo comprimento entre senha e mensagem
     keystream = itertools.cycle(map(ord, senha.lower()))
     """
@@ -50,6 +47,8 @@ def cifrador(senha: str, mensagem: str) -> str:
     """
     criptograma = (
         chr(((next(keystream) + ord(m.lower()) - 2 * ord("a")) % 26) + ord("a"))
+        if m.lower() in string.ascii_lowercase
+        else m
         for m in mensagem
     )
     ### Mantém as letras maiúsculas e minusculas no criptograma conforme a mensagem
