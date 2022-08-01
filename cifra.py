@@ -48,15 +48,15 @@ def cifrador(senha: str, mensagem: str) -> str:
     3. resolve (s+m)%26 para descobrir a letra do criptograma
     4. soma ord("a") para ter o equivalente ascii
     """
-    criptograma = [
+    criptograma = (
         chr(((next(keystream) + ord(m.lower()) - 2 * ord("a")) % 26) + ord("a"))
         for m in mensagem
-    ]
+    )
     ### Mantém as letras maiúsculas e minusculas no criptograma conforme a mensagem
-    criptograma = [
+    criptograma = "".join(
         c if m.islower() else c.upper() for c, m in zip(criptograma, mensagem)
-    ]
-    return "".join(criptograma)
+    )
+    return criptograma
 
 
 def decifrador(senha: str, criptograma: str) -> str:
